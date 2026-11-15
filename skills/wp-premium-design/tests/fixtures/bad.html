@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- planted: zoom blocked -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Fixture: bad page</title>
+<style>
+  body { margin: 0; font: 17px/1.6 Georgia, serif; color: #1a2a33; background: #f6f8f9; }
+  /* planted: fixed header, no scroll-padding-top on html */
+  .bar { position: fixed; top: 0; left: 0; right: 0; height: 80px; background: #fff; border-bottom: 1px solid #ccd; z-index: 10; display: flex; align-items: center; gap: 24px; padding: 0 24px; }
+  main { padding-top: 96px; }
+  section { min-height: 700px; padding: 48px 24px; border-bottom: 1px solid #dde; }
+  /* planted: purple gradient + transition: all */
+  .promo { background: linear-gradient(135deg, #7c3aed, #4f46e5); color: #fff; padding: 32px; transition: all .3s; }
+  /* planted: reveal that waits for JS that never runs */
+  .reveal { opacity: 0; transform: translateY(24px); }
+  .reveal.is-in { opacity: 1; transform: none; }
+  /* planted: 14px field text on mobile */
+  input { font-size: 14px; padding: 12px; }
+  a { color: #0b5d7a; }
+  .links a { display: inline-block; margin: 8px 12px 8px 0; }
+  :focus-visible { outline: 2px solid #0b5d7a; outline-offset: 2px; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="bar"><strong>Fixture</strong><a href="#s2">Stages</a><a href="#s3">Contact</a></header>
+<main id="main">
+  <section id="s1"><h1>Planted problems</h1><p class="promo">Purple gradient promo block.</p>
+    <div class="links"><a href="#s1">One</a><a href="#s2">Two</a><a href="#s3">Three</a><a href="#s4">Four</a></div></section>
+  <section id="s2"><h2>Stages</h2><p class="reveal">This paragraph waits for a reveal script that never runs.</p>
+    <div class="links"><a href="#s1">Back</a><a href="#s3">Next</a><a href="#s4">Last</a></div></section>
+  <section id="s3"><h2>Contact</h2><form><label for="em">Email</label> <input id="em" type="email" autocomplete="email"></form>
+    <div class="links"><a href="#s1">Top</a><a href="#s2">Stages</a></div></section>
+  <section id="s4"><h2>Heavy</h2><p>Every frame blocks the main thread here.</p><div class="links"><a href="#s1">Top</a><a href="#s3">Contact</a></div></section>
+</main>
+<footer><p>Footer</p></footer>
+<script>
+  // planted: main-thread work in every frame (~45 ms) + a 260 ms long task every 1.5 s
+  const busy = ms => { const t = performance.now(); while (performance.now() - t < ms) {} };
+  (function loop() { busy(45); requestAnimationFrame(loop); })();
+  setInterval(() => busy(260), 1500);
+  // the "reveal" script is broken on purpose: wrong selector, nothing gets .is-in
+  document.querySelectorAll('.reveal-typo').forEach(el => el.classList.add('is-in'));
+</script>
+</body>
+</html>

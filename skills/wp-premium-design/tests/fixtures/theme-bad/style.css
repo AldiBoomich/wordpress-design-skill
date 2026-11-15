@@ -1,0 +1,23 @@
+/*
+Theme Name: Fixture Bad
+Version: 1.0.0
+Requires at least: 6.5
+Tested up to: 6.9
+Requires PHP: 8.0
+License: GPLv2 or later
+Text Domain: fixture-bad
+*/
+.hero { background: linear-gradient(135deg, #7c3aed, #4f46e5); transition: all .3s; }
+.a1 { will-change: transform; } .a2 { will-change: transform; }
+.a3 { will-change: transform; }
+.a4 { will-change: transform; }
+.a5 { will-change: transform; }
+.a6 { will-change: transform; }
+.a7 { will-change: transform; }
+.a8 { will-change: transform; }
+.a9 { will-change: transform; }
+.a10 { will-change: transform; }
+.a11 { will-change: opacity; }
+.a12 { will-change: opacity; }
+.reveal { animation: up .6s; }
+@keyframes up { from { opacity: 0; } }
